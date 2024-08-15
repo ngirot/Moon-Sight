@@ -13,15 +13,15 @@ const sketch = function (p) {
     p.createCanvas(800, 800, p.WEBGL);
     p.shader(shaders);
     p.noStroke();
-    shaders.setUniform("uTexture", moonTexture);
     p.background(0);
-
+    //p.noLoop();
   }
+
   p.draw = function () {
+    shaders.setUniform("uTexture", moonTexture);
     shaders.setUniform('time', p.millis());
-    console.log('draw', p.millis());
     p.sphere(200, 100, 100);
   }
 };
 
-new p5(sketch);
+const sketachable = new p5(sketch);
