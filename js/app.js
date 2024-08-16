@@ -23,6 +23,7 @@ const sketch = function (p) {
   }
 
   p.draw = function () {
+    shaders.setUniform("uLightPosition", [1000, 0, -500]);
     shaders.setUniform("uTexture", moonTexture);
     shaders.setUniform('time', p.millis());
 
