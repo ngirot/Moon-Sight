@@ -4,7 +4,7 @@ const sketch = function (p) {
   let shaders;
   let moonTexture;
 
-  p.preload = function (){
+  p.preload = function () {
     shaders = p.loadShader('shaders/shader.vert', 'shaders/shader.frag');
     moonTexture = p.loadImage("img/lroc_color_poles_4k.jpg");
   }
@@ -15,12 +15,19 @@ const sketch = function (p) {
     p.noStroke();
     p.background(0);
     //p.noLoop();
+
+    const cam = p.createCamera();
+    cam.setPosition(0, 0, 0);
+    cam.lookAt(0, 0, 1);
+
   }
 
   p.draw = function () {
     shaders.setUniform("uTexture", moonTexture);
     shaders.setUniform('time', p.millis());
-    p.sphere(200, 100, 100);
+
+    p.translate(0, 0, 250);
+    p.sphere(100, 100, 100);
   }
 };
 
