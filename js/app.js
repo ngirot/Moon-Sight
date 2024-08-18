@@ -1,8 +1,8 @@
 import p5 from 'p5';
 
 const moonPosition = {x:  100, y: 250, z: 500};
-const earthPosition = {x: 0, y: 0, z: 0};
-const sunPosition = {x: 1000, y: 0, z: -1500};
+const earthPosition = {x: 200, y: 400, z: 0};
+const sunPosition = {x: 0, y: 0, z: 0};
 
 const sketch = function (p) {
   let shaders;
@@ -33,7 +33,7 @@ const sketch = function (p) {
     shaders.setUniform('time', p.millis());
 
     p.translate(moonPosition.x, moonPosition.y, moonPosition.z);
-    //p.rotate(p.PI/3);
+    p.rotate(p.PI);
     p.sphere(100, 100, 100);
   }
 };
