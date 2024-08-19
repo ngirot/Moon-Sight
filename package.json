@@ -22,6 +22,7 @@
     "webpack-merge": "^5.10.0"
   },
   "dependencies": {
+    "astronomy-engine": "^2.1.19",
     "p5": "^1.10.0"
   }
 }
