@@ -2,14 +2,14 @@ import * as React from "react";
 import p5, {Image, Shader} from "p5"
 import {Body, HelioVector, RotationAxis, Vector} from "astronomy-engine";
 
-let sketchable;
+let sketchable: p5;
 
 const toCoord = function (vector: Vector) {
     const factor = 1000;
     return {x: -vector.x * factor, y: vector.z * factor, z: vector.y * factor};
 }
 
-function sketch(p: any) {
+function sketch(p: p5) {
     let shaders: Shader;
     let moonTexture: Image;
 
@@ -29,7 +29,7 @@ function sketch(p: any) {
 
     p.draw = function () {
         const date = new Date();
-        //date.setHours(date.getHours() + (date.getTime() / 55) % 100000);
+        date.setHours(date.getHours() + (date.getTime() / 55) % 100000);
         //date.setHours(date.getHours() + 8);
         date.setMilliseconds(0);
 
@@ -57,6 +57,7 @@ function sketch(p: any) {
         p.translate(moonPosition.x, moonPosition.y, moonPosition.z);
 
         p.rotate((moonRotation.spin % 360) * p.PI / 180, [moonRotation.north.x, moonRotation.north.z, moonRotation.north.y]);
+        p.rotate((-moonRotation.ra % 360) * p.PI / 180, [1, 0, 0]);
         p.rotate(p.PI / 2, [0, 1, 0])
         p.sphere(0.02322760333, 100, 100);
     }
