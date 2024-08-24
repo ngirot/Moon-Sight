@@ -1,28 +1,33 @@
 {
-  "name": " ",
-  "version": "0.0.1",
-  "description": "",
+  "name": "moon-perspective",
+  "version": "0.1.0",
   "private": true,
-  "keywords": [
-    ""
-  ],
-  "license": "",
-  "author": "",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack serve --open --config webpack.config.dev.js",
-    "build": "webpack --config webpack.config.prod.js"
-  },
-  "devDependencies": {
-    "copy-webpack-plugin": "^11.0.0",
-    "html-webpack-plugin": "^5.6.0",
-    "webpack": "^5.91.0",
-    "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^5.0.4",
-    "webpack-merge": "^5.10.0"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
+    "@loadable/component": "^5.16.4",
     "astronomy-engine": "^2.1.19",
-    "p5": "^1.10.0"
+    "next": "14.2.6",
+    "p5": ">=1.10.0",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "overrides": {
+    "@p5-wrapper/react": {
+      "p5": "^1.10.0"
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/p5": "^1.7.6",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.6",
+    "typescript": "^5"
   }
 }

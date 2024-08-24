@@ -22,4 +22,5 @@ void main() {
 
     // Result
     gl_FragColor = vec4(light * color.x, light * color.y, light * color.z, color.w);
+
 }
