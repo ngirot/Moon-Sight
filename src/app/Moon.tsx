@@ -13,6 +13,10 @@ function sketch(p: p5) {
     let shaders: Shader;
     let moonTexture: Image;
 
+    const toDegree = function (rad: number): number {
+        return (rad % 360) * p.PI / 180;
+    }
+
     p.preload = function () {
         shaders = p.loadShader('shaders/shader.vert', 'shaders/shader.frag');
         moonTexture = p.loadImage("img/lroc_color_poles_4k.jpg");
@@ -29,7 +33,7 @@ function sketch(p: p5) {
 
     p.draw = function () {
         const date = new Date();
-        date.setHours(date.getHours() + (date.getTime() / 55) % 100000);
+        //date.setHours(date.getHours() + (date.getTime() / 55) % 100000);
         //date.setHours(date.getHours() + 8);
         date.setMilliseconds(0);
 
@@ -56,8 +60,8 @@ function sketch(p: p5) {
 
         p.translate(moonPosition.x, moonPosition.y, moonPosition.z);
 
-        p.rotate((moonRotation.spin % 360) * p.PI / 180, [moonRotation.north.x, moonRotation.north.z, moonRotation.north.y]);
-        p.rotate((-moonRotation.ra % 360) * p.PI / 180, [1, 0, 0]);
+        p.rotate(toDegree(moonRotation.spin), [moonRotation.north.x, moonRotation.north.z, moonRotation.north.y]);
+        p.rotate(toDegree(-moonRotation.ra), [1, 0, 0]);
         p.rotate(p.PI / 2, [0, 1, 0])
         p.sphere(0.02322760333, 100, 100);
     }
