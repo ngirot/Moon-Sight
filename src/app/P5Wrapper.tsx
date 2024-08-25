@@ -7,13 +7,13 @@ interface P5WrapperProps {
 
 export function P5Wrapper({sketchFn}: P5WrapperProps) {
     const [sketch, setSketch] = useState<p5 | null>(null);
-    const canvaP5 = useRef<HTMLElement | undefined>(undefined);
+    const canvaP5 = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
         let created: p5;
         if (typeof window !== 'undefined') {
             if (sketch === null && canvaP5.current !== undefined) {
-                created = new p5(sketchFn, canvaP5.current)
+                created = new p5(sketchFn, canvaP5.current ? canvaP5.current : undefined);
                 setSketch(created);
             }
         }
