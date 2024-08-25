@@ -1,4 +1,4 @@
-import {useEffect, useRef} from "react";
+import {useEffect, useRef, useState} from "react";
 import p5 from "p5";
 
 interface P5WrapperProps {
@@ -6,18 +6,23 @@ interface P5WrapperProps {
 }
 
 export function P5Wrapper({sketchFn}: P5WrapperProps) {
-    let sketchable: p5 | null = null;
-
+    const [sketch, setSketch] = useState<p5 | null>(null);
     const canvaP5 = useRef<HTMLElement | undefined>(undefined);
 
-    useEffect((): void => {
+    useEffect(() => {
+        let created: p5;
         if (typeof window !== 'undefined') {
-            if (!sketchable) {
-                sketchable = new p5(sketchFn, canvaP5.current);
-                console.log('attach', sketchable);
+            if (sketch === null && canvaP5.current !== undefined) {
+                created = new p5(sketchFn, canvaP5.current)
+                setSketch(created);
             }
         }
-    });
+        return () => {
+            if (created) {
+                created.remove();
+            }
+        }
+    }, [canvaP5]);
 
     return <div ref={canvaP5}></div>;
 }
