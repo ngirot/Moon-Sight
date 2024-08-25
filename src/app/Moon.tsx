@@ -1,6 +1,7 @@
 import {useEffect, useRef} from "react";
 import p5, {Image, Shader} from "p5"
 import {Body, HelioVector, RotationAxis, Vector} from "astronomy-engine";
+import {P5Wrapper} from "@/app/P5Wrapper";
 
 let sketchable: p5;
 
@@ -68,16 +69,5 @@ function sketch(p: p5) {
 }
 
 export function Moon() {
-    const canvaP5 = useRef<HTMLElement | undefined>(undefined);
-
-    useEffect((): void => {
-        if (typeof window !== 'undefined') {
-            if (!sketchable) {
-                sketchable = new p5(sketch, canvaP5.current);
-                console.log('attach', sketchable);
-            }
-        }
-    });
-
-    return <div ref={canvaP5}></div>;
+    return <P5Wrapper sketchFn={sketch}></P5Wrapper>;
 }
