@@ -81,7 +81,6 @@ function build(wrapper: BuildWrapper) {
 
 export function Moon({date}: MoonProps) {
     const [wrapper, setWrapper] = useState({date: date.toDate()})
-    console.log('render moon', date);
     useEffect(() => {
         wrapper.date = date.toDate();
     }, [date]);
