@@ -4,6 +4,8 @@ import {AnimationParams} from "@/app/AnimationParams";
 import {useEffect, useState} from "react";
 import moment, {Moment} from "moment";
 import {LocalDate} from "@/app/LocalDate";
+import {Box, Stack} from "@mui/system";
+import {Card, Divider, Typography} from "@mui/material";
 
 interface AnimationControlProps {
     animationParams: AnimationParams;
@@ -30,6 +32,7 @@ export function AnimationControl({animationParams, updateAnimationParams}: Anima
     }
 
     const handleDate = (date: Moment) => {
+        console.log('up');
         update(animationParams.withStartDate(date).withAnimationStartDate(date));
     }
 
@@ -46,9 +49,9 @@ export function AnimationControl({animationParams, updateAnimationParams}: Anima
         }
     }
 
-    const handleState = (s: boolean) => {
-        setAnimationState(s);
-        if (s) {
+    const handleState = (newState: boolean) => {
+        setAnimationState(newState);
+        if (newState) {
             update(animationParams.withAnimationSpeed(speed).withAnimationStartDate(moment()));
         } else {
             const newDate = animationParams.renderDate();
@@ -66,11 +69,22 @@ export function AnimationControl({animationParams, updateAnimationParams}: Anima
     }, []);
 
     return <>
-        <LocalDate date={displayDate}></LocalDate>
-        <DateSelector date={animationParams.startDate} updateDate={handleDate}></DateSelector>
-        <SpeedSelector animationSpeed={speed}
-                       updateAnimationSpeed={handleAnimationSpeed}
-                       animationState={animationState}
-                       updateAnimationState={handleState}></SpeedSelector>
+        <Card variant="outlined" sx={{maxWidth: 360}}>
+            <Box sx={{p: 2}} align="center">
+                <Typography gutterBottom variant="h5" component="div">
+                    <LocalDate date={displayDate}></LocalDate>
+                </Typography>
+                <DateSelector date={animationParams.startDate} updateDate={handleDate}></DateSelector>
+            </Box>
+            <Divider/>
+            <Box sx={{p: 2}}>
+                <Stack direction="row" spacing={1}>
+                    <SpeedSelector animationSpeed={speed}
+                                   updateAnimationSpeed={handleAnimationSpeed}
+                                   animationState={animationState}
+                                   updateAnimationState={handleState}></SpeedSelector>
+                </Stack>
+            </Box>
+        </Card>
     </>
 }

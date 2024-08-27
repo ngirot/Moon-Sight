@@ -1,3 +1,5 @@
+"use client"
+
 import {Moment} from "moment";
 
 interface LocalDateProps {
@@ -5,9 +7,10 @@ interface LocalDateProps {
 }
 
 const format = (date: Moment): string => {
-    return date.format('lll');
+    let d = date.toDate();
+    return d.toLocaleDateString() + " " + d.toLocaleTimeString();
 }
 
 export function LocalDate({date}: LocalDateProps) {
-    return <span>{format(date)}</span>;
+    return <span suppressHydrationWarning>{format(date)}</span>;
 }
