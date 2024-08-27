@@ -2,14 +2,14 @@ import {useEffect, useState} from "react";
 import p5, {Image, Shader} from "p5"
 import {Body, HelioVector, RotationAxis, Vector} from "astronomy-engine";
 import {P5Wrapper} from "@/app/P5Wrapper";
-import {Moment} from "moment";
+import {AnimationParams} from "@/app/AnimationParams";
 
 interface MoonProps {
-    date: Moment;
+    animationParams: AnimationParams
 }
 
 interface BuildWrapper {
-    date: Date;
+    animationParams: AnimationParams
 }
 
 const toCoord = function (vector: Vector) {
@@ -32,7 +32,7 @@ function build(wrapper: BuildWrapper) {
         }
 
         p.setup = function () {
-            p.createCanvas(800, 800, p.WEBGL);
+            p.createCanvas(700, 700, p.WEBGL);
             p.shader(shaders);
             p.noStroke();
 
@@ -41,17 +41,13 @@ function build(wrapper: BuildWrapper) {
         }
 
         p.draw = function () {
-            //console.log('d', date);
-            const date2 = wrapper.date;// date.toDate();
-            //date.setHours(date.getHours() + (date.getTime() / 55) % 100000);
-            //date.setHours(date.getHours() + 8);
-            date2.setMilliseconds(0);
+            let date = wrapper.animationParams.renderDate().toDate();
+            date.setMilliseconds(0);
 
-
-            const moonVector = HelioVector(Body.Moon, date2);
-            const moonRotation = RotationAxis(Body.Moon, date2);
-            const earthVector = HelioVector(Body.Earth, date2);
-            const sunVector = HelioVector(Body.Sun, date2);
+            const moonVector = HelioVector(Body.Moon, date);
+            const moonRotation = RotationAxis(Body.Moon, date);
+            const earthVector = HelioVector(Body.Earth, date);
+            const sunVector = HelioVector(Body.Sun, date);
 
             const moonPosition = toCoord(moonVector);
             const earthPosition = toCoord(earthVector);
@@ -79,11 +75,12 @@ function build(wrapper: BuildWrapper) {
     }
 }
 
-export function Moon({date}: MoonProps) {
-    const [wrapper, setWrapper] = useState({date: date.toDate()})
+export function Moon({animationParams}: MoonProps) {
+    const [wrapper, setWrapper] = useState({animationParams});
+
     useEffect(() => {
-        wrapper.date = date.toDate();
-    }, [date]);
+        wrapper.animationParams = animationParams;
+    }, [animationParams]);
 
     return <P5Wrapper sketchFn={build(wrapper)}></P5Wrapper>;
 }

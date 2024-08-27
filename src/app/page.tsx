@@ -2,23 +2,25 @@
 
 import {Moon} from "@/app/Moon";
 import {Grid} from "@mui/material";
-import moment, {Moment} from "moment";
+import moment from "moment";
 import {useState} from "react";
-import {DateSelector} from "@/app/DateSelector";
 import {NavBar} from "@/app/NavBar";
+import {AnimationControl} from "@/app/AnimationControl";
+import {AnimationParams} from "@/app/AnimationParams";
 
 export default function Home() {
-    let [date, setDate] = useState<Moment>(moment());
+    let [animationParams, setAnimationParams] = useState<AnimationParams>(new AnimationParams(moment(), moment(), 1));
 
     return (
         <div>
             <NavBar></NavBar>
             <Grid container spacing={2}>
                 <Grid item xs={8}>
-                    <Moon date={date}></Moon>
+                    <Moon animationParams={animationParams}></Moon>
                 </Grid>
                 <Grid item xs={4}>
-                    <DateSelector date={date} updateDate={setDate}></DateSelector>
+                    <AnimationControl animationParams={animationParams}
+                                      updateAnimationParams={setAnimationParams}></AnimationControl>
                 </Grid>
             </Grid>
         </div>
