@@ -1,5 +1,11 @@
 import moment, {Moment} from "moment";
 
+export enum AnimationFlowState {
+    PLAY,
+    PAUSE,
+    REWIND
+}
+
 export class AnimationParams {
     private readonly _startDate: Moment;
     private readonly _animationStartDate: Moment;

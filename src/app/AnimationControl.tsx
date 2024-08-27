@@ -1,6 +1,6 @@
 import {DateSelector} from "@/app/DateSelector";
 import {SpeedSelector} from "@/app/SpeedSelector";
-import {AnimationParams} from "@/app/AnimationParams";
+import {AnimationFlowState, AnimationParams} from "@/app/AnimationParams";
 import {useEffect, useState} from "react";
 import moment, {Moment} from "moment";
 import {LocalDate} from "@/app/LocalDate";
@@ -22,7 +22,7 @@ class Wrapper {
 
 export function AnimationControl({animationParams, updateAnimationParams}: AnimationControlProps) {
     const [displayDate, setDisplayDate] = useState<Moment>(animationParams.renderDate());
-    const [animationState, setAnimationState] = useState<boolean>(true);
+    const [animationState, setAnimationState] = useState<AnimationFlowState>(AnimationFlowState.PLAY);
     const [speed, setSpeed] = useState<number>(animationParams.animationSpeed);
     const [currentAnimationParam, setCurrentAnimationParam] = useState<Wrapper>(new Wrapper(animationParams));
 
@@ -33,13 +33,13 @@ export function AnimationControl({animationParams, updateAnimationParams}: Anima
 
     const handleDate = (date: Moment) => {
         update(animationParams.withStartDate(date).withAnimationStartDate(date).withAnimationSpeed(0));
-        setAnimationState(false);
+        setAnimationState(AnimationFlowState.PAUSE);
     }
 
     const handleAnimationSpeed = (s: number) => {
         setSpeed(s);
 
-        if (animationState) {
+        if (animationState !== AnimationFlowState.PAUSE) {
             const newAnimationParams = animationParams
                 .withAnimationSpeed(s)
                 .withStartDate(animationParams.renderDate())
@@ -49,14 +49,18 @@ export function AnimationControl({animationParams, updateAnimationParams}: Anima
         }
     }
 
-    const handleState = (newState: boolean) => {
+    const handleState = (newState: AnimationFlowState) => {
         setAnimationState(newState);
-        if (newState) {
-            update(animationParams.withAnimationSpeed(speed).withAnimationStartDate(moment()));
-        } else {
-            const newDate = animationParams.renderDate();
-            update(animationParams.withStartDate(newDate).withAnimationStartDate(moment()).withAnimationSpeed(0));
+        let newSpeed = 0;
+        if (newState === AnimationFlowState.PLAY) {
+            newSpeed = speed;
         }
+        if (newState === AnimationFlowState.REWIND) {
+            newSpeed = -speed;
+        }
+
+        const newDate = animationParams.renderDate();
+        update(animationParams.withStartDate(newDate).withAnimationStartDate(moment()).withAnimationSpeed(newSpeed))
     }
 
     useEffect(() => {

@@ -1,13 +1,15 @@
 import {InputAdornment, TextField, ToggleButton, ToggleButtonGroup} from "@mui/material";
 import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import FastRewindIcon from '@mui/icons-material/FastRewind';
 import * as React from "react";
+import {AnimationFlowState} from "@/app/AnimationParams";
 
 interface SpeedSelectorProps {
     animationSpeed: number;
     updateAnimationSpeed: (speed: number) => void;
-    animationState: boolean;
-    updateAnimationState: (state: boolean) => void;
+    animationState: AnimationFlowState;
+    updateAnimationState: (state: AnimationFlowState) => void;
 }
 
 export function SpeedSelector({
@@ -16,7 +18,8 @@ export function SpeedSelector({
                                   animationState,
                                   updateAnimationState
                               }: SpeedSelectorProps) {
-    const handleFLowState = (_: React.MouseEvent<HTMLElement>, newFLowState: boolean | null,
+
+    const handleFLowState = (_: React.MouseEvent<HTMLElement>, newFLowState: AnimationFlowState | null,
     ) => {
         if (newFLowState !== null) {
             updateAnimationState(newFLowState);
@@ -39,10 +42,13 @@ export function SpeedSelector({
             onChange={handleFLowState}
             aria-label="text alignment"
         >
-            <ToggleButton value={false} aria-label="left aligned">
+            <ToggleButton value={AnimationFlowState.PAUSE} aria-label="left aligned">
                 <PauseIcon/>
             </ToggleButton>
-            <ToggleButton value={true} aria-label="centered">
+            <ToggleButton value={AnimationFlowState.REWIND} aria-label="centered">
+                <FastRewindIcon/>
+            </ToggleButton>
+            <ToggleButton value={AnimationFlowState.PLAY} aria-label="centered">
                 <PlayArrowIcon/>
             </ToggleButton>
         </ToggleButtonGroup>
