@@ -32,8 +32,8 @@ export function AnimationControl({animationParams, updateAnimationParams}: Anima
     }
 
     const handleDate = (date: Moment) => {
-        console.log('up');
-        update(animationParams.withStartDate(date).withAnimationStartDate(date));
+        update(animationParams.withStartDate(date).withAnimationStartDate(date).withAnimationSpeed(0));
+        setAnimationState(false);
     }
 
     const handleAnimationSpeed = (s: number) => {
