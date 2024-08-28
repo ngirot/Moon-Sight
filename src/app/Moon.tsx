@@ -80,7 +80,7 @@ export function Moon({animationParams}: MoonProps) {
 
     useEffect(() => {
         wrapper.animationParams = animationParams;
-    }, [animationParams]);
+    }, [animationParams, wrapper]);
 
     return <P5Wrapper sketchFn={build(wrapper)}></P5Wrapper>;
 }

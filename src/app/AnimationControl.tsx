@@ -20,6 +20,12 @@ class Wrapper {
     }
 }
 
+const style = {
+    center: {
+        textAlign: 'center'
+    }
+}
+
 export function AnimationControl({animationParams, updateAnimationParams}: AnimationControlProps) {
     const [displayDate, setDisplayDate] = useState<Moment>(animationParams.renderDate());
     const [animationState, setAnimationState] = useState<AnimationFlowState>(AnimationFlowState.PLAY);
@@ -70,15 +76,17 @@ export function AnimationControl({animationParams, updateAnimationParams}: Anima
         return () => {
             clearInterval(timerID);
         };
-    }, []);
+    });
 
     return <>
         <Card variant="outlined" sx={{maxWidth: 360}}>
-            <Box sx={{p: 2}} align="center">
-                <Typography gutterBottom variant="h5" component="div">
-                    <LocalDate date={displayDate}></LocalDate>
-                </Typography>
-                <DateSelector date={animationParams.startDate} updateDate={handleDate}></DateSelector>
+            <Box sx={{p: 2}}>
+                <div className="center">
+                    <Typography gutterBottom variant="h5" component="div">
+                        <LocalDate date={displayDate}></LocalDate>
+                    </Typography>
+                    <DateSelector date={animationParams.startDate} updateDate={handleDate}></DateSelector>
+                </div>
             </Box>
             <Divider/>
             <Box sx={{p: 2}}>
