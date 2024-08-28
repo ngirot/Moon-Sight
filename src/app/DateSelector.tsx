@@ -1,6 +1,9 @@
 import {DateTimePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterMoment} from "@mui/x-date-pickers/AdapterMoment";
 import {Moment} from "moment/moment";
+import 'moment/min/locales';
+import {currentLocale} from "@/app/LocaleService";
+import {useEffect, useState} from "react";
 
 interface DateSelectorProps {
     date: Moment;
@@ -14,7 +17,15 @@ export function DateSelector({date, updateDate}: DateSelectorProps) {
         }
     }
 
-    return <LocalizationProvider dateAdapter={AdapterMoment}>
-        <DateTimePicker label="Force a date" value={date} onChange={updateDateFilteringNull}/>
-    </LocalizationProvider>;
+    const [isClient, setIsClient] = useState(false)
+
+    useEffect(() => {
+        setIsClient(true);
+    }, [])
+
+    return <div>
+        {isClient ? <LocalizationProvider adapterLocale={currentLocale()} dateAdapter={AdapterMoment}>
+            <DateTimePicker label="Force a date" value={date} onChange={updateDateFilteringNull}/>
+        </LocalizationProvider> : <div></div>}
+    </div>;
 }
