@@ -14,11 +14,9 @@ import {Position} from "@/app/services/Position";
 export default function Home() {
     const positionDefault = new Position(48.866667, 2.333333, undefined);
     let [animationParams, setAnimationParams] = useState<AnimationParams>(new AnimationParams(positionDefault, moment(), moment(), 1));
-    const [position, setPosition] = useState<Position>(positionDefault);
 
-    const uuu = (p: Position) => {
+    const updatePosition = (p: Position) => {
         setAnimationParams(animationParams.withPosition(p));
-        setPosition(p);
     }
 
     return (
@@ -32,8 +30,8 @@ export default function Home() {
                     <Stack spacing={2}>
                         <AnimationControl animationParams={animationParams}
                                           updateAnimationParams={setAnimationParams}></AnimationControl>
-                        <CoordInput position={position}
-                                    updatePosition={uuu}></CoordInput>
+                        <CoordInput position={animationParams.position}
+                                    updatePosition={updatePosition}></CoordInput>
                     </Stack>
                 </Grid>
             </Grid>
