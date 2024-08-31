@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import p5, {Image, Shader} from "p5"
-import {Body, HelioVector, RotationAxis, Vector} from "astronomy-engine";
+import {Body, HelioVector, ObserverVector, RotationAxis, Vector} from "astronomy-engine";
 import {P5Wrapper} from "@/app/P5Wrapper";
 import {AnimationParams} from "@/app/AnimationParams";
 
@@ -44,6 +44,14 @@ function build(wrapper: BuildWrapper) {
             let date = wrapper.animationParams.renderDate().toDate();
             date.setMilliseconds(0);
 
+
+            const location = {
+                latitude: wrapper.animationParams.position.x,
+                longitude: wrapper.animationParams.position.y,
+                height: wrapper.animationParams.position.altitude
+            };
+            const positionOnEarth = toCoord(ObserverVector(date, location, true));
+
             const moonVector = HelioVector(Body.Moon, date);
             const moonRotation = RotationAxis(Body.Moon, date);
             const earthVector = HelioVector(Body.Earth, date);
@@ -53,14 +61,20 @@ function build(wrapper: BuildWrapper) {
             const earthPosition = toCoord(earthVector);
             const sunPosition = toCoord(sunVector);
 
+            const realPosition = {
+                x: earthPosition.x + positionOnEarth.x,
+                y: earthPosition.y + positionOnEarth.y,
+                z: earthPosition.z + positionOnEarth.z
+            };
+
+
             p.background(0);
 
             const cam = p.createCamera();
-            cam.setPosition(earthPosition.x, earthPosition.y, earthPosition.z);
+            cam.setPosition(realPosition.x, realPosition.y, realPosition.z);
             // @ts-expect-error
             cam.perspective(0.024, 1, 0.01, 10000000000000);
             cam.lookAt(moonPosition.x, moonPosition.y, moonPosition.z);
-
             shaders.setUniform("uLightPosition", [sunPosition.x, sunPosition.y, sunPosition.z]);
             shaders.setUniform("uTexture", moonTexture);
             shaders.setUniform('time', p.millis());
