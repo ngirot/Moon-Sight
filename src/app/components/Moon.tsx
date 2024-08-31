@@ -1,8 +1,10 @@
 import {useEffect, useState} from "react";
 import p5, {Image, Shader} from "p5"
-import {Body, HelioVector, ObserverVector, RotationAxis, Vector} from "astronomy-engine";
+import {Body, HelioVector, Observer, ObserverVector, RotationAxis, Vector} from "astronomy-engine";
 import {P5Wrapper} from "@/app/components/P5Wrapper";
 import {AnimationParams} from "@/app/services/AnimationParams";
+import {Position3d} from "@/app/services/Position3d";
+import {PositionOnSphere} from "@/app/services/PositionOnSphere";
 
 interface MoonProps {
     animationParams: AnimationParams
@@ -12,9 +14,16 @@ interface BuildWrapper {
     animationParams: AnimationParams
 }
 
-const toCoord = function (vector: Vector) {
-    const factor = 1000;
-    return {x: -vector.x * factor, y: vector.z * factor, z: vector.y * factor};
+const toCoord = function (vector: Vector): Position3d {
+    return new Position3d(-vector.x, vector.z, vector.y).mult(1000);
+}
+
+const toObserver = function (position: PositionOnSphere): Observer {
+    return {
+        latitude: position.latitude,
+        longitude: position.longitude,
+        height: position.altitude
+    };
 }
 
 function build(wrapper: BuildWrapper) {
@@ -44,12 +53,7 @@ function build(wrapper: BuildWrapper) {
             let date = wrapper.animationParams.renderDate().toDate();
             date.setMilliseconds(0);
 
-
-            const location = {
-                latitude: wrapper.animationParams.position.latitude,
-                longitude: wrapper.animationParams.position.longitude,
-                height: wrapper.animationParams.position.altitude
-            };
+            const location = toObserver(wrapper.animationParams.position);
             const positionOnEarth = toCoord(ObserverVector(date, location, true));
 
             const moonVector = HelioVector(Body.Moon, date);
@@ -61,11 +65,7 @@ function build(wrapper: BuildWrapper) {
             const earthPosition = toCoord(earthVector);
             const sunPosition = toCoord(sunVector);
 
-            const realPosition = {
-                x: earthPosition.x + positionOnEarth.x,
-                y: earthPosition.y + positionOnEarth.y,
-                z: earthPosition.z + positionOnEarth.z
-            };
+            const realPosition = earthPosition.add(positionOnEarth);
 
             p.background(0);
 

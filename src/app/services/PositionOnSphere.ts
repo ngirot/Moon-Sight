@@ -1,3 +1,5 @@
+import {Position3d} from "@/app/services/Position3d";
+
 export class PositionOnSphere {
     private readonly _latitude: number;
     private readonly _longitude: number;
