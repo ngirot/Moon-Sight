@@ -46,8 +46,8 @@ function build(wrapper: BuildWrapper) {
 
 
             const location = {
-                latitude: wrapper.animationParams.position.x,
-                longitude: wrapper.animationParams.position.y,
+                latitude: wrapper.animationParams.position.latitude,
+                longitude: wrapper.animationParams.position.longitude,
                 height: wrapper.animationParams.position.altitude
             };
             const positionOnEarth = toCoord(ObserverVector(date, location, true));
@@ -66,7 +66,6 @@ function build(wrapper: BuildWrapper) {
                 y: earthPosition.y + positionOnEarth.y,
                 z: earthPosition.z + positionOnEarth.z
             };
-
 
             p.background(0);
 

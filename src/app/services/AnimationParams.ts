@@ -1,5 +1,5 @@
 import moment, {Moment} from "moment";
-import {Position} from "@/app/services/Position";
+import {PositionOnSphere} from "@/app/services/PositionOnSphere";
 
 export enum AnimationFlowState {
     PLAY,
@@ -8,12 +8,12 @@ export enum AnimationFlowState {
 }
 
 export class AnimationParams {
-    private readonly _position: Position;
+    private readonly _position: PositionOnSphere;
     private readonly _startDate: Moment;
     private readonly _animationStartDate: Moment;
     private readonly _animationSpeed: number;
 
-    constructor(position: Position, startDate: moment.Moment, animationStartDate: moment.Moment, animationSpeed: number) {
+    constructor(position: PositionOnSphere, startDate: moment.Moment, animationStartDate: moment.Moment, animationSpeed: number) {
         this._position = position;
         this._startDate = startDate;
         this._animationStartDate = animationStartDate;
@@ -33,7 +33,7 @@ export class AnimationParams {
     }
 
 
-    get position(): Position {
+    get position(): PositionOnSphere {
         return this._position;
     }
 
@@ -42,7 +42,7 @@ export class AnimationParams {
         return moment(this._startDate).add(elapsed * this._animationSpeed, 'millisecond');
     }
 
-    public withPosition(position: Position): AnimationParams {
+    public withPosition(position: PositionOnSphere): AnimationParams {
         return new AnimationParams(position, this._startDate, this._animationStartDate, this._animationSpeed);
     }
 

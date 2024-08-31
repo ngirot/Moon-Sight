@@ -9,13 +9,13 @@ import {AnimationControl} from "@/app/components/AnimationControl";
 import {AnimationParams} from "@/app/services/AnimationParams";
 import {CoordInput} from "@/app/components/CoordInput";
 import {Stack} from "@mui/system";
-import {Position} from "@/app/services/Position";
+import {PositionOnSphere} from "@/app/services/PositionOnSphere";
 
 export default function Home() {
-    const positionDefault = new Position(48.866667, 2.333333, undefined);
+    const positionDefault = new PositionOnSphere(48.866667, 2.333333, undefined);
     let [animationParams, setAnimationParams] = useState<AnimationParams>(new AnimationParams(positionDefault, moment(), moment(), 1));
 
-    const updatePosition = (p: Position) => {
+    const updatePosition = (p: PositionOnSphere) => {
         setAnimationParams(animationParams.withPosition(p));
     }
 
