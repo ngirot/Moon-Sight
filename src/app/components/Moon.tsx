@@ -1,8 +1,8 @@
 import {useEffect, useState} from "react";
 import p5, {Image, Shader} from "p5"
 import {Body, HelioVector, ObserverVector, RotationAxis, Vector} from "astronomy-engine";
-import {P5Wrapper} from "@/app/P5Wrapper";
-import {AnimationParams} from "@/app/AnimationParams";
+import {P5Wrapper} from "@/app/components/P5Wrapper";
+import {AnimationParams} from "@/app/services/AnimationParams";
 
 interface MoonProps {
     animationParams: AnimationParams

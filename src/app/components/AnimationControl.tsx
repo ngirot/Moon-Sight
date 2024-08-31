@@ -1,9 +1,9 @@
-import {DateSelector} from "@/app/DateSelector";
-import {SpeedSelector} from "@/app/SpeedSelector";
-import {AnimationFlowState, AnimationParams} from "@/app/AnimationParams";
+import {DateSelector} from "@/app/components/DateSelector";
+import {SpeedSelector} from "@/app/components/SpeedSelector";
+import {AnimationFlowState, AnimationParams} from "@/app/services/AnimationParams";
 import {useEffect, useState} from "react";
 import moment, {Moment} from "moment";
-import {LocalDate} from "@/app/LocalDate";
+import {LocalDate} from "@/app/components/LocalDate";
 import {Box, Stack} from "@mui/system";
 import {Card, Divider, Typography} from "@mui/material";
 

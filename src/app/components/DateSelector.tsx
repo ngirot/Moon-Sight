@@ -2,7 +2,7 @@ import {DateTimePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterMoment} from "@mui/x-date-pickers/AdapterMoment";
 import {Moment} from "moment/moment";
 import 'moment/min/locales';
-import {currentLocale} from "@/app/LocaleService";
+import {currentLocale} from "@/app/services/LocaleService";
 import {useEffect, useState} from "react";
 
 interface DateSelectorProps {

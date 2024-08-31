@@ -1,15 +1,15 @@
 'use client';
 
-import {Moon} from "@/app/Moon";
+import {Moon} from "@/app/components/Moon";
 import {Grid} from "@mui/material";
 import moment from "moment";
 import {useState} from "react";
-import {NavBar} from "@/app/NavBar";
-import {AnimationControl} from "@/app/AnimationControl";
-import {AnimationParams} from "@/app/AnimationParams";
-import {CoordInput} from "@/app/CoordInput";
+import {NavBar} from "@/app/components/NavBar";
+import {AnimationControl} from "@/app/components/AnimationControl";
+import {AnimationParams} from "@/app/services/AnimationParams";
+import {CoordInput} from "@/app/components/CoordInput";
 import {Stack} from "@mui/system";
-import {Position} from "@/app/Position";
+import {Position} from "@/app/services/Position";
 
 export default function Home() {
     const positionDefault = new Position(48.866667, 2.333333, undefined);

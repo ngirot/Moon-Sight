@@ -1,5 +1,5 @@
 import moment, {Moment} from "moment";
-import {Position} from "@/app/Position";
+import {Position} from "@/app/services/Position";
 
 export enum AnimationFlowState {
     PLAY,

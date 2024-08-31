@@ -2,7 +2,7 @@ import "leaflet/dist/leaflet.css"
 import {useEffect, useState} from "react";
 import {jsx} from "@emotion/react";
 import {useMapEvents} from "react-leaflet";
-import {Position} from "@/app/Position";
+import {Position} from "@/app/services/Position";
 import JSX = jsx.JSX;
 
 interface CoordInputProps {

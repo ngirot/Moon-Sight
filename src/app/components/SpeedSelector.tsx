@@ -3,7 +3,7 @@ import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import FastRewindIcon from '@mui/icons-material/FastRewind';
 import * as React from "react";
-import {AnimationFlowState} from "@/app/AnimationParams";
+import {AnimationFlowState} from "@/app/services/AnimationParams";
 
 interface SpeedSelectorProps {
     animationSpeed: number;
