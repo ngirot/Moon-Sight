@@ -73,7 +73,11 @@ function build(wrapper: BuildWrapper) {
             cam.setPosition(realPosition.x, realPosition.y, realPosition.z);
             // @ts-expect-error
             cam.perspective(0.024, 1, 0.01, 10000000000000);
+            cam.upX = positionOnEarth.x;
+            cam.upY = positionOnEarth.y;
+            cam.upZ = positionOnEarth.z;
             cam.lookAt(moonPosition.x, moonPosition.y, moonPosition.z);
+
             shaders.setUniform("uLightPosition", [sunPosition.x, sunPosition.y, sunPosition.z]);
             shaders.setUniform("uTexture", moonTexture);
             shaders.setUniform('time', p.millis());
