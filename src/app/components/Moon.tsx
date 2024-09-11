@@ -1,10 +1,8 @@
 import {useEffect, useState} from "react";
 import p5, {Image, Shader} from "p5"
-import {Body, HelioVector, Observer, ObserverVector, RotationAxis, Vector} from "astronomy-engine";
 import {P5Wrapper} from "@/app/components/P5Wrapper";
 import {AnimationParams} from "@/app/services/AnimationParams";
-import {Position3d} from "@/app/services/Position3d";
-import {PositionOnSphere} from "@/app/services/PositionOnSphere";
+import {AstronomicalObject, SolarSystem} from "@/app/services/SolarSystem";
 
 interface MoonProps {
     animationParams: AnimationParams
@@ -12,18 +10,6 @@ interface MoonProps {
 
 interface BuildWrapper {
     animationParams: AnimationParams
-}
-
-const toCoord = function (vector: Vector): Position3d {
-    return new Position3d(-vector.x, vector.z, vector.y).mult(1000);
-}
-
-const toObserver = function (position: PositionOnSphere): Observer {
-    return {
-        latitude: position.latitude,
-        longitude: position.longitude,
-        height: position.altitude
-    };
 }
 
 function build(wrapper: BuildWrapper) {
@@ -53,17 +39,13 @@ function build(wrapper: BuildWrapper) {
             let date = wrapper.animationParams.renderDate().toDate();
             date.setMilliseconds(0);
 
-            const location = toObserver(wrapper.animationParams.position);
-            const positionOnEarth = toCoord(ObserverVector(date, location, true));
+            const solarSystem = new SolarSystem(wrapper.animationParams.renderDate());
 
-            const moonVector = HelioVector(Body.Moon, date);
-            const moonRotation = RotationAxis(Body.Moon, date);
-            const earthVector = HelioVector(Body.Earth, date);
-            const sunVector = HelioVector(Body.Sun, date);
-
-            const moonPosition = toCoord(moonVector);
-            const earthPosition = toCoord(earthVector);
-            const sunPosition = toCoord(sunVector);
+            const positionOnEarth = solarSystem.locationOnEarth(wrapper.animationParams.position)
+            const moonPosition = solarSystem.position(AstronomicalObject.MOON);
+            const earthPosition = solarSystem.position(AstronomicalObject.EARTH);
+            const sunPosition = solarSystem.position(AstronomicalObject.SUN);
+            const moonRotation = solarSystem.rotation(AstronomicalObject.MOON);
 
             const realPosition = earthPosition.add(positionOnEarth);
 
