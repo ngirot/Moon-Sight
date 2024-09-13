@@ -54,7 +54,7 @@ function build(wrapper: BuildWrapper) {
             const cam = p.createCamera();
             cam.setPosition(realPosition.x, realPosition.y, realPosition.z);
             // @ts-expect-error
-            cam.perspective(0.024, 1, 0.01, 10000000000000);
+            cam.perspective(0.012, 1, 0.01, 10000000000000);
             cam.upX = positionOnEarth.x;
             cam.upY = positionOnEarth.y;
             cam.upZ = positionOnEarth.z;
@@ -69,7 +69,7 @@ function build(wrapper: BuildWrapper) {
             p.rotate(toDegree(moonRotation.spin), [moonRotation.north.x, moonRotation.north.z, moonRotation.north.y]);
             p.rotate(toDegree(-moonRotation.ra), [1, 0, 0]);
             p.rotate(p.PI / 2, [0, 1, 0])
-            p.sphere(0.02322760333, 100, 100);
+            p.sphere(solarSystem.kmToUnit(3474.8 / 2), 100, 100);
         }
     }
 }
