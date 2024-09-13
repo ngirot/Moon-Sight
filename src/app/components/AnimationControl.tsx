@@ -47,7 +47,7 @@ export function AnimationControl({animationParams, updateAnimationParams}: Anima
 
         if (animationState !== AnimationFlowState.PAUSE) {
             const newAnimationParams = animationParams
-                .withAnimationSpeed(s)
+                .withAnimationSpeed(animationParams.animationSpeed < 0 ? -s : s)
                 .withStartDate(animationParams.renderDate())
                 .withAnimationStartDate(moment());
 
