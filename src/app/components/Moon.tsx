@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import p5, {Image, Shader} from "p5"
+import p5, {Image, Shader, Geometry} from "p5"
 import {P5Wrapper} from "@/app/components/P5Wrapper";
 import {AnimationParams} from "@/app/services/AnimationParams";
 import {AstronomicalObject, SolarSystem} from "@/app/services/SolarSystem";
@@ -12,10 +12,43 @@ interface BuildWrapper {
     animationParams: AnimationParams
 }
 
-function build(wrapper: BuildWrapper) {
+function build(wrapper: BuildWrapper, dynamicP5: any) {
     return (p: p5) => {
         let shaders: Shader;
         let moonTexture: Image;
+
+        const sphere2 = function (size: number, detail: number) {
+            return new dynamicP5.Geometry(
+                detail,
+                detail,
+                function (this: Geometry) {
+                    for (let i = 0; i < detail + 1; i++) {
+                        const lat = p.map(i, 0, detail, 0, p.PI);
+                        for (let j = 0; j < detail + 1; j++) {
+                            const lon = p.map(j, 0, detail, 0, p.TWO_PI);
+                            const x = size * p.sin(lat) * p.cos(lon);
+                            const y = size * p.sin(lat) * p.sin(lon);
+                            const z = size * p.cos(lat);
+
+                            const v = i / detail;
+                            const u = 1 - j / detail;
+
+                            // @ts-expect-error
+                            this.vertices.push(p.createVector(x, y, z));
+                            // @ts-expect-error
+                            this.vertexNormals.push(p.createVector(x, y, z));
+                            // @ts-expect-error
+                            this.uvs.push(u, v);
+                        }
+                    }
+
+                    this.computeFaces();
+
+                    // @ts-expect-error
+                    this.gid = 'SphereCustom|' + size + '|' + detail;
+                }
+            )
+        }
 
         const toDegree = function (rad: number): number {
             return (rad % 360) * p.PI / 180;
@@ -68,18 +101,26 @@ function build(wrapper: BuildWrapper) {
 
             p.rotate(toDegree(moonRotation.spin), [moonRotation.north.x, moonRotation.north.z, moonRotation.north.y]);
             p.rotate(toDegree(-moonRotation.ra), [1, 0, 0]);
-            p.rotate(p.PI / 2, [0, 1, 0])
-            p.sphere(solarSystem.kmToUnit(3474.8 / 2), 100, 100);
+
+            p.rotate(p.PI / 2, [1, 0, 0])
+            p.model(sphere2(solarSystem.kmToUnit(3474.8 / 2), 100));
         }
     }
 }
 
 export function Moon({animationParams}: MoonProps) {
     const [wrapper, setWrapper] = useState({animationParams});
+    const [elementToRender, setElementToRender] = useState<JSX.Element | null>(null);
 
     useEffect(() => {
         wrapper.animationParams = animationParams;
     }, [animationParams, wrapper]);
 
-    return <P5Wrapper sketchFn={build(wrapper)}></P5Wrapper>;
+    useEffect(() => {
+        import('p5').then(loadedP5 => {
+            setElementToRender(<P5Wrapper sketchFn={build(wrapper, loadedP5.default)}></P5Wrapper>);
+        });
+    }, []);
+
+    return <div>{elementToRender !== null ? elementToRender : <div></div>}</div>
 }
