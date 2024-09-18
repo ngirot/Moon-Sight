@@ -1,8 +1,9 @@
 import {useEffect, useState} from "react";
-import p5, {Image, Shader, Geometry} from "p5"
+import p5, {Geometry, Image, Shader} from "p5"
 import {P5Wrapper} from "@/app/components/P5Wrapper";
 import {AnimationParams} from "@/app/services/AnimationParams";
 import {AstronomicalObject, SolarSystem} from "@/app/services/SolarSystem";
+import {round} from "@popperjs/core/lib/utils/math";
 
 interface MoonProps {
     animationParams: AnimationParams
@@ -16,38 +17,48 @@ function build(wrapper: BuildWrapper, dynamicP5: any) {
     return (p: p5) => {
         let shaders: Shader;
         let moonTexture: Image;
+        let moonDisplacementMap: Image;
+        let moonGeometry: Geometry;
 
-        const sphere2 = function (size: number, detail: number) {
-            return new dynamicP5.Geometry(
-                detail,
-                detail,
-                function (this: Geometry) {
-                    for (let i = 0; i < detail + 1; i++) {
-                        const lat = p.map(i, 0, detail, 0, p.PI);
-                        for (let j = 0; j < detail + 1; j++) {
-                            const lon = p.map(j, 0, detail, 0, p.TWO_PI);
-                            const x = size * p.sin(lat) * p.cos(lon);
-                            const y = size * p.sin(lat) * p.sin(lon);
-                            const z = size * p.cos(lat);
+        const sphere2 = function (size: number, detail: number, displacementMap: Image | null = null, displacementMaxHeight: number = 0) {
+            const geo = new dynamicP5.Geometry(detail, detail);
 
-                            const v = i / detail;
-                            const u = 1 - j / detail;
+            for (let i = detail + 1; i >= 0; i--) {
+                const lat = p.map(i, 0, detail, 0, p.PI);
+                const v = i / detail;
+                const sinLat = p.sin(lat);
 
-                            // @ts-expect-error
-                            this.vertices.push(p.createVector(x, y, z));
-                            // @ts-expect-error
-                            this.vertexNormals.push(p.createVector(x, y, z));
-                            // @ts-expect-error
-                            this.uvs.push(u, v);
-                        }
+                for (let j = 0; j < detail + 1; j++) {
+                    const lon = p.map(j, 0, detail, 0, p.TWO_PI);
+
+                    const u = 1 - j / detail;
+
+                    let elevation = 0;
+                    if (displacementMap != null) {
+                        const displacementX = p.map(v, 0, 1, 0, displacementMap.height);
+                        const displacementY = p.map(u, 0, 1, 0, displacementMap.width);
+                        const displacementPixel = displacementMap.get(round(displacementY), round(displacementX));
+                        elevation = p.map(displacementPixel[0], 0, 255, 0, displacementMaxHeight);
                     }
 
-                    this.computeFaces();
+                    const sizeWithDisplacement = size + elevation;
 
-                    // @ts-expect-error
-                    this.gid = 'SphereCustom|' + size + '|' + detail;
+                    const x = sizeWithDisplacement * sinLat * p.cos(lon);
+                    const y = sizeWithDisplacement * sinLat * p.sin(lon);
+                    const z = sizeWithDisplacement * p.cos(lat);
+
+
+                    geo.vertices.push(p.createVector(x, y, z));
+                    geo.uvs.push(u, v);
                 }
-            )
+            }
+
+            geo.computeFaces();
+            geo.computeNormals();
+
+            geo.gid = 'SphereCustom|' + size + '|' + detail;
+
+            return geo;
         }
 
         const toDegree = function (rad: number): number {
@@ -56,16 +67,22 @@ function build(wrapper: BuildWrapper, dynamicP5: any) {
 
         p.preload = function () {
             shaders = p.loadShader('shaders/shader.vert', 'shaders/shader.frag');
+
             moonTexture = p.loadImage("img/lroc_color_poles_4k.jpg");
+            moonDisplacementMap = p.loadImage("img/ldem_4_uint.png");
         }
 
         p.setup = function () {
             p.createCanvas(700, 700, p.WEBGL);
             p.shader(shaders);
             p.noStroke();
+            p.frameRate();
+            //p.noLoop();
 
             p.angleMode(p.RADIANS)
-            //p.noLoop();
+
+            moonGeometry = sphere2(SolarSystem.kmToUnit(1727.2), 720, moonDisplacementMap, SolarSystem.kmToUnit(32.768));
+            //moonGeometry = sphere2(SolarSystem.kmToUnit(1737.4), 100);
         }
 
         p.draw = function () {
@@ -103,7 +120,7 @@ function build(wrapper: BuildWrapper, dynamicP5: any) {
             p.rotate(toDegree(-moonRotation.ra), [1, 0, 0]);
 
             p.rotate(p.PI / 2, [1, 0, 0])
-            p.model(sphere2(solarSystem.kmToUnit(3474.8 / 2), 100));
+            p.model(moonGeometry);
         }
     }
 }

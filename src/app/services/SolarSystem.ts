@@ -29,7 +29,7 @@ export class SolarSystem {
         return toCoord(ObserverVector(this._date, location, true));
     }
 
-    public kmToUnit(kilometers: number): number {
+    public static kmToUnit(kilometers: number): number {
         return 1000 * kilometers / 150000000;
     }
 
