@@ -81,8 +81,8 @@ function build(wrapper: BuildWrapper, dynamicP5: any) {
 
             p.angleMode(p.RADIANS)
 
-            moonGeometry = sphere2(SolarSystem.kmToUnit(1727.2), 720, moonDisplacementMap, SolarSystem.kmToUnit(32.768));
-            //moonGeometry = sphere2(SolarSystem.kmToUnit(1737.4), 100);
+            // moonGeometry = sphere2(SolarSystem.kmToUnit(1727.2), 1000, moonDisplacementMap, SolarSystem.kmToUnit(32.768));
+            moonGeometry = sphere2(SolarSystem.kmToUnit(1737.4), 100);
         }
 
         p.draw = function () {
@@ -112,6 +112,8 @@ function build(wrapper: BuildWrapper, dynamicP5: any) {
 
             shaders.setUniform("uLightPosition", [sunPosition.x, sunPosition.y, sunPosition.z]);
             shaders.setUniform("uTexture", moonTexture);
+            shaders.setUniform("uHeightMap", moonDisplacementMap);
+            shaders.setUniform("uHeightMapSize", [moonDisplacementMap.width, moonDisplacementMap.height, SolarSystem.kmToUnit(580)]);
             shaders.setUniform('time', p.millis());
 
             p.translate(moonPosition.x, moonPosition.y, moonPosition.z);
