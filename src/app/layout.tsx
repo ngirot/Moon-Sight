@@ -5,7 +5,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Moon perspective",
+  title: "Moon Sight",
   description: "Show the moon as you see it from Earth",
 };
 

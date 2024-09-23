@@ -18,7 +18,7 @@ export function NavBar() {
                     <Image src={'img/logo.svg'} width={45} height={45} alt={'application logo'}/>
                 </IconButton>
                 <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
-                    Moon perspective
+                    Moon Sight
                 </Typography>
                 {pages.map((page) => (
                     <Button
