@@ -3,9 +3,11 @@ import {AppBar, Button, IconButton, Toolbar, Typography} from "@mui/material";
 import Image from "next/image";
 import {useState} from "react";
 import About from "@/app/components/About";
+import Contact from "@/app/components/Contact";
 
 export function NavBar() {
     const [aboutOpen, setAboutOpen] = useState(false);
+    const [contactOpen, setContactOpen] = useState(false);
 
     return <Box sx={{flexGrow: 1}} paddingBottom={2}>
         <AppBar position="static">
@@ -31,9 +33,11 @@ export function NavBar() {
                 <About open={aboutOpen} close={() => setAboutOpen(false)}></About>
                 <Button
                     sx={{my: 2, color: 'white', display: 'block'}}
+                    onClick={() => setContactOpen(true)}
                 >
                     Contact
                 </Button>
+                <Contact open={contactOpen} close={() => setContactOpen(false)}></Contact>
             </Toolbar>
         </AppBar>
     </Box>
