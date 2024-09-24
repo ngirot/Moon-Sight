@@ -1,4 +1,4 @@
-import {AppBar, Container, Dialog, IconButton, Slide, Toolbar, Typography} from "@mui/material";
+import {AppBar, Container, Dialog, Divider, IconButton, Slide, Toolbar, Typography} from "@mui/material";
 import {forwardRef} from "react";
 import {TransitionProps} from '@mui/material/transitions';
 import {CloseIcon} from "next/dist/client/components/react-dev-overlay/internal/icons/CloseIcon";
@@ -57,11 +57,18 @@ export default function About({open, close}: AboutProps) {
                     Additionally, lunar eclipses are not managed by our system, so the moon’s appearance during
                     these events will not be reflected accurately.
                 </Typography>
-                <Typography variant="body1" mt={2}>
+                <Typography variant="body1" mt={2} mb={3}>
                     Moon Sight is perfect for everyone from casual stargazers to seasoned astronomers, offering a
                     stunning
                     and accurate view of the moon's journey across the sky. Discover the beauty of the moon from any
                     point on Earth, and explore its phases and movements throughout time. 🌙
+                </Typography>
+            </Box>
+            <Divider variant="fullWidth"/>
+            <Box>
+                <Typography variant="body1" mt={3}>
+                    Moon texture and mapping are from : <a href="https://svs.gsfc.nasa.gov/4720/">NASA's Scientific
+                    Visualization Studio</a>
                 </Typography>
             </Box>
         </Container>
