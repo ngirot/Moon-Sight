@@ -39,18 +39,18 @@ export default function About({open, close}: AboutProps) {
             <Box>
                 <Typography variant="body1" mt={2}>
                     Welcome to Moon Sight, your interactive portal for exploring the moon as it appears in the sky from
-                    any location on Earth, at any date and time. Whether you're a casual observer or an avid astronomer,
-                    Moon Sight provides a real-time visualization of the moon's phase, position, and visibility,
+                    any location on Earth, at any date and time. Whether you&apos;re a casual observer or an avid astronomer,
+                    Moon Sight provides a real-time visualization of the moon&apos;s phase, position, and visibility,
                     customized
-                    for your specific location and time zone. You can also look back to see the moon's past phases or
+                    for your specific location and time zone. You can also look back to see the moon&apos;s past phases or
                     forward
                     to see how it will appear in the future.
                 </Typography>
                 <Typography variant="body1" mt={2}>
                     However, please note that our system does not manage horizon
-                    effects yet, meaning the tool does not account for the moon's rise or set times, nor whether the
+                    effects yet, meaning the tool does not account for the moon&apos;s rise or set times, nor whether the
                     moon is
-                    visible above the local horizon at a given time. Moon Sight will show you the moon's position as if
+                    visible above the local horizon at a given time. Moon Sight will show you the moon&apos;s position as if
                     viewed from the celestial sphere, even if it is technically below the horizon in your area.
                 </Typography>
                 <Typography variant="body1" mt={2}>
@@ -60,14 +60,14 @@ export default function About({open, close}: AboutProps) {
                 <Typography variant="body1" mt={2} mb={3}>
                     Moon Sight is perfect for everyone from casual stargazers to seasoned astronomers, offering a
                     stunning
-                    and accurate view of the moon's journey across the sky. Discover the beauty of the moon from any
+                    and accurate view of the moon&apos;s journey across the sky. Discover the beauty of the moon from any
                     point on Earth, and explore its phases and movements throughout time. 🌙
                 </Typography>
             </Box>
             <Divider variant="fullWidth"/>
             <Box>
                 <Typography variant="body1" mt={3}>
-                    Moon texture and mapping are from : <a href="https://svs.gsfc.nasa.gov/4720/">NASA's Scientific
+                    Moon texture and mapping are from : <a href="https://svs.gsfc.nasa.gov/4720/">NASA&apos;s Scientific
                     Visualization Studio</a>
                 </Typography>
             </Box>
