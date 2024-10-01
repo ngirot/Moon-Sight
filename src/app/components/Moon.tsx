@@ -4,6 +4,7 @@ import {P5Wrapper} from "@/app/components/P5Wrapper";
 import {AnimationParams} from "@/app/services/AnimationParams";
 import {AstronomicalObject, SolarSystem} from "@/app/services/SolarSystem";
 import {round} from "@popperjs/core/lib/utils/math";
+import {Utils} from "@/app/services/Utils";
 
 interface MoonProps {
     animationParams: AnimationParams
@@ -73,7 +74,9 @@ function build(wrapper: BuildWrapper, dynamicP5: any) {
         }
 
         p.setup = function () {
-            p.createCanvas(700, 700, p.WEBGL);
+            const container = document.getElementById("moon-container");
+            const size = Math.min(Utils.elementWidth(container), Utils.elementHeight(container)) * 0.9;
+            const can = p.createCanvas(size, size, p.WEBGL);
             p.shader(shaders);
             p.noStroke();
             p.frameRate();
@@ -141,5 +144,5 @@ export function Moon({animationParams}: MoonProps) {
         });
     }, []);
 
-    return <div>{elementToRender !== null ? elementToRender : <div></div>}</div>
+    return <div id="moon-container" style={{width: "100%", height: "100%"}}>{elementToRender !== null ? elementToRender : <div></div>}</div>
 }

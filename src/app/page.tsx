@@ -20,9 +20,9 @@ export default function Home() {
     }
 
     return (
-        <div>
+        <div style={{height: "100%"}}>
             <NavBar></NavBar>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} style={{height: "100%", textAlign: "center"}}>
                 <Grid item xs={8}>
                     <Moon animationParams={animationParams}></Moon>
                 </Grid>
