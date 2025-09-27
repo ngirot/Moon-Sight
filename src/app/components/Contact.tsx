@@ -41,7 +41,7 @@ export default function Contact({open, close}: ContactProps) {
                     We’d love to hear from you! Whether you have questions, feedback, or ideas to improve Moon Sight, we’re here to help.
                 </Typography>
                 <Typography variant="body1" mt={2}>
-                    For any inquiries or to get in touch with our team, please contact us on <a href="mailto:contacts.moon.sight@gmail.com">contacts.moon.sight@gmail.com</a>
+                    For any inquiries or to get in touch with our team, please contact us directly on <a href="https://github.com/ngirot/Moon-Sight/issues">Github</a>
                 </Typography>
                 <Typography variant="body1" mt={2}>
                     Facing an issue?<br/>
