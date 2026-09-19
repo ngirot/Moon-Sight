@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {JSX, useEffect, useState} from "react";
 import p5, {Geometry, Image, Shader} from "p5"
 import {P5Wrapper} from "@/app/components/P5Wrapper";
 import {AnimationParams} from "@/app/services/AnimationParams";
@@ -66,14 +66,11 @@ function build(wrapper: BuildWrapper, dynamicP5: any) {
             return (rad % 360) * p.PI / 180;
         }
 
-        p.preload = function () {
-            shaders = p.loadShader('shaders/shader.vert', 'shaders/shader.frag');
+        p.setup = async function () {
+            shaders = await p.loadShader('shaders/shader.vert', 'shaders/shader.frag');
+            moonTexture = await p.loadImage("img/lroc_color_poles_4k.jpg");
+            moonDisplacementMap = await p.loadImage("img/ldem_4_uint.png");
 
-            moonTexture = p.loadImage("img/lroc_color_poles_4k.jpg");
-            moonDisplacementMap = p.loadImage("img/ldem_4_uint.png");
-        }
-
-        p.setup = function () {
             const container = document.getElementById("moon-container");
             const size = Math.min(Utils.elementWidth(container), Utils.elementHeight(container)) * 0.9;
             const can = p.createCanvas(size, size, p.WEBGL);
@@ -112,6 +109,7 @@ function build(wrapper: BuildWrapper, dynamicP5: any) {
             cam.upY = positionOnEarth.y;
             cam.upZ = positionOnEarth.z;
             cam.lookAt(moonPosition.x, moonPosition.y, moonPosition.z);
+            p.setCamera(cam);
 
             shaders.setUniform("uLightPosition", [sunPosition.x, sunPosition.y, sunPosition.z]);
             shaders.setUniform("uTexture", moonTexture);

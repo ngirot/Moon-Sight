@@ -9,7 +9,7 @@ export function NavBar() {
     const [aboutOpen, setAboutOpen] = useState(false);
     const [contactOpen, setContactOpen] = useState(false);
 
-    return <Box sx={{flexGrow: 1}} paddingBottom={2}>
+    return <Box sx={{flexGrow: 1, paddingBottom: 2}}>
         <AppBar position="static">
             <Toolbar>
                 <IconButton

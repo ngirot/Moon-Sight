@@ -23,10 +23,10 @@ export default function Home() {
         <div style={{height: "100%"}}>
             <NavBar></NavBar>
             <Grid container spacing={2} style={{height: "100%", textAlign: "center"}}>
-                <Grid item xs={8}>
+                <Grid size={8}>
                     <Moon animationParams={animationParams}></Moon>
                 </Grid>
-                <Grid item xs={4}>
+                <Grid size={4}>
                     <Stack spacing={2}>
                         <AnimationControl animationParams={animationParams}
                                           updateAnimationParams={setAnimationParams}></AnimationControl>

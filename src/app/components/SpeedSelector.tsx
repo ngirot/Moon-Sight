@@ -58,8 +58,10 @@ export function SpeedSelector({
             value={animationSpeed}
             onChange={updateAnimationSpeedFromEvent}
             sx={{m: 1, width: '25ch'}}
-            InputProps={{
-                startAdornment: <InputAdornment position="start">x</InputAdornment>,
+            slotProps={{
+                input: {
+                    startAdornment: <InputAdornment position="start">x</InputAdornment>,
+                },
             }}
         />
     </>
