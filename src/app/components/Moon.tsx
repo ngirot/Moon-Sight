@@ -50,7 +50,8 @@ function build(wrapper: BuildWrapper, dynamicP5: any) {
 
 
                     geo.vertices.push(p.createVector(x, y, z));
-                    geo.uvs.push(u, v);
+                    // V flipped to compensate for cam.yScale below (north/south stay correct)
+                    geo.uvs.push(u, 1 - v);
                 }
             }
 
@@ -103,6 +104,11 @@ function build(wrapper: BuildWrapper, dynamicP5: any) {
 
             const cam = p.createCamera();
             cam.setPosition(realPosition.x, realPosition.y, realPosition.z);
+            // p5 flips the Y axis internally, which renders our physical "up" (observer's
+            // zenith) upside down. Cancelling it here fixes lighting and orientation for
+            // every location.
+            // @ts-expect-error yScale is an internal p5.Camera field, not part of its public types
+            cam.yScale = -1;
             // @ts-expect-error
             cam.perspective(0.012, 1, 0.01, 10000000000000);
             cam.upX = positionOnEarth.x;
