@@ -50,7 +50,7 @@ const toCoord = function (vector: Vector): Position3d {
 }
 
 const toRotation = function (axis: AxisInfo): Rotation {
-    const north = new Position3d(axis.north.x, axis.north.y, axis.north.z);
+    const north = new Position3d(-axis.north.x, axis.north.z, axis.north.y);
     return new Rotation(north, axis.spin, axis.ra);
 }
 

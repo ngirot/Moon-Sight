@@ -121,7 +121,7 @@ function build(wrapper: BuildWrapper, dynamicP5: any) {
 
             p.translate(moonPosition.x, moonPosition.y, moonPosition.z);
 
-            p.rotate(toDegree(moonRotation.spin), [moonRotation.north.x, moonRotation.north.z, moonRotation.north.y]);
+            p.rotate(toDegree(moonRotation.spin), [moonRotation.north.x, moonRotation.north.y, moonRotation.north.z]);
             p.rotate(toDegree(-moonRotation.ra), [1, 0, 0]);
 
             p.rotate(p.PI / 2, [1, 0, 0])
